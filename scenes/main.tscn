@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=15 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -32,6 +32,16 @@ texture_filter = 5
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_trsr2"]
 size = Vector3(100, 1, 100)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ajcdf"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yjye6"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_ajcdf")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_iwami"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_xecma")
@@ -77,6 +87,43 @@ surface_material_override/0 = SubResource("StandardMaterial3D_ym5vi")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_trsr2")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+size = Vector2i(1024, 512)
+
+[node name="ColorRect" type="ColorRect" parent="SubViewport"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -512.0
+offset_top = -512.0
+offset_right = 512.0
+offset_bottom = 512.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="SubViewport"]
+
+[node name="Button" type="Button" parent="SubViewport/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -50.0
+offset_right = 100.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Hello world!"
+
+[node name="SpatialMenu" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, -8.74228e-08, -1, 0, 2, -4.37114e-08, 0, 1.52934, -5)
+material_override = SubResource("StandardMaterial3D_yjye6")
+mesh = SubResource("PlaneMesh_iwami")
 
 [connection signal="input_vector2_changed" from="XROrigin3D/LeftController" to="XROrigin3D" method="_process_input"]
 [connection signal="input_vector2_changed" from="XROrigin3D/RightController" to="XROrigin3D" method="_process_input"]
